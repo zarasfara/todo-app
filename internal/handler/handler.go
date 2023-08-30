@@ -18,9 +18,10 @@ func NewHandler(services *service.Service) *Handler {
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.Default()
 
-	api := router.Group("/api", h.check)
+	api := router.Group("/api")
 	{
-		api.GET("check")
+		api.Use(jsonHeaderCheckMiddleware())
+		api.GET("check", h.check)
 	}
 
 	return router
