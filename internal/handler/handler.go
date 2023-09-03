@@ -10,7 +10,7 @@ type Handler struct {
 }
 
 func NewHandler(services *service.Service) *Handler {
-	return &Handler {
+	return &Handler{
 		services: services,
 	}
 }
@@ -21,7 +21,15 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.Use(jsonHeaderCheckMiddleware())
-		api.GET("check", h.check)
+		v1 := api.Group("/v1")
+		{
+			v1.GET("/",h.check)
+			users := v1.Group("/users")
+			{
+				users.GET("/", h.getAllUsers)
+			}
+		}
+
 	}
 
 	return router

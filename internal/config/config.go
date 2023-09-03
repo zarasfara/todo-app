@@ -19,6 +19,8 @@ type (
 	}
 
 	DBConfig struct {
+		Host     string
+		Port     string
 		Database string
 		Username string
 		Password string
@@ -34,7 +36,7 @@ func Init() *Config {
 	populateDefaults()
 
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
+		log.Fatalf("Error loading .env file: %s", err.Error())
 	}
 
 	if err := parseConfig(); err != nil {
@@ -48,7 +50,6 @@ func Init() *Config {
 	if err := unmarshal(&cfg); err != nil {
 		log.Fatal("Cannot unmarshal config")
 	}
-
 
 	return &cfg
 }
@@ -65,9 +66,11 @@ func unmarshal(cfg *Config) error {
 // set parametres from .env.
 func setFromEnv(cfg *Config) {
 	// database
-	cfg.DBConnection.Database = os.Getenv("db_pet")
-	cfg.DBConnection.Password = os.Getenv("root")
-	cfg.DBConnection.Username = os.Getenv("root")
+	cfg.DBConnection.Database = os.Getenv("DB_DATABASE")
+	cfg.DBConnection.Password = os.Getenv("DB_PASSWORD")
+	cfg.DBConnection.Username = os.Getenv("DB_USERNAME")
+	cfg.DBConnection.Port = os.Getenv("DB_PORT")
+	cfg.DBConnection.Host = os.Getenv("DB_HOST")
 }
 
 // set default parametres for config.

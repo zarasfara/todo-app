@@ -13,7 +13,12 @@ import (
 func Run() {
 	cfg := config.Init()
 
-	repos := repository.NewRepository()
+	db, err := repository.NewPostgresDB(*cfg)
+	if err != nil {
+		log.Fatalf("failed to initialize db: %s", err.Error())
+	}
+
+	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
 	handlers := handler.NewHandler(services)
 

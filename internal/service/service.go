@@ -1,11 +1,20 @@
 package service
 
-import "github.com/zarasfara/pet-adoption-platoform/internal/repository"
+import (
+	"github.com/zarasfara/pet-adoption-platoform/internal/entities"
+	"github.com/zarasfara/pet-adoption-platoform/internal/repository"
+)
+
+type User interface {
+	GetAll() ([]entities.User, error)
+}
 
 type Service struct {
-
+	User
 }
 
 func NewService(repos *repository.Repository) *Service {
-	return &Service{}
+	return &Service{
+		User: NewUserService(repos.User),
+	}
 }

@@ -1,8 +1,20 @@
 package repository
 
-type Repository struct {
+import (
+	"github.com/jmoiron/sqlx"
+	"github.com/zarasfara/pet-adoption-platoform/internal/entities"
+)
+
+type User interface {
+	GetAll() ([]entities.User, error)
 }
 
-func NewRepository() *Repository {
-	return &Repository{}
+type Repository struct {
+	User
+}
+
+func NewRepository(db *sqlx.DB) *Repository {
+	return &Repository{
+		User: NewUserPostgres(db),
+	}
 }

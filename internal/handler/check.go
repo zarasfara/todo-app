@@ -8,6 +8,6 @@ import (
 
 func (h *Handler) check(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H {
-		"check": "success!",
+		"check": "check!",
 	})
 }
