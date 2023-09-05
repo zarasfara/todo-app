@@ -20,7 +20,7 @@ func NewUserPostgres(db *sqlx.DB) *UserPostgres {
 func (u *UserPostgres) GetAll() ([]entities.User, error) {
 	var userList []entities.User
 
-	query := fmt.Sprintf("SELECT * FROM %s", users)
+	query := fmt.Sprintf("SELECT id, name, username FROM %s", users)
 
 	err := u.db.Select(&userList, query)
 	if err != nil {

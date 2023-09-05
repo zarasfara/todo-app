@@ -21,9 +21,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	api := router.Group("/api")
 	{
 		api.Use(jsonHeaderCheckMiddleware())
+		
 		v1 := api.Group("/v1")
 		{
-			v1.GET("/",h.check)
+			v1.GET("/check",h.check)
+
 			users := v1.Group("/users")
 			{
 				users.GET("/", h.getAllUsers)
