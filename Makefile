@@ -9,6 +9,7 @@ run:
 init:
 	cp .env.example .env
 
+# Сборка проекта
 up:
 	docker compose up -d --build
 
@@ -17,3 +18,7 @@ migrate-up:
 
 migrate-down:
 	docker run -v ./migrations:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://root:root@localhost:5436/db_pet?sslmode=disable down -all
+
+# Создание таблицы
+create_table:
+    migrate create -ext sql -dir ./migrations -seq create_$(table_name)_table
