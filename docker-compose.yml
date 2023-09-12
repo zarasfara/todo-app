@@ -3,10 +3,18 @@ services:
   app:
     build:
       context: .
+    command: ./wait-for-postgres.sh postgres .bin/app
     depends_on:
       - postgres
     ports:
       - "8000:80"
+    environment:
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_DATABASE: ${DB_DATABASE}
+      
+#-----------------------------------------
+
   postgres:
     image: postgres
     environment:
@@ -15,8 +23,10 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
     ports:
       - "5436:5432"
+      
+# ----------------------------------------
+
   adminer:
     image: adminer
-    restart: always
     ports:
       - "8070:8080"
