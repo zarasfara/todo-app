@@ -17,8 +17,8 @@ migrate-up:
 	docker run -v ./migrations:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://${DB_USERNAME}:${DB_PASSWORD}@localhost:5436/${DB_DATABASE}?sslmode=disable up
 
 migrate-down:
-	docker run -v ./migrations:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://root:root@localhost:5436/db_pet?sslmode=disable down -all
+	docker run -v ./migrations:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://${DB_USERNAME}:${DB_PASSWORD}@localhost:5436/${DB_DATABASE}?sslmode=disable down -all
 
 # Создание таблицы
 create_table:
-    migrate create -ext sql -dir ./migrations -seq create_$(table_name)_table
+	migrate create -ext sql -dir ./migrations -seq create_$(table_name)_table
