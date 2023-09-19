@@ -7,6 +7,7 @@ import (
 
 type User interface {
 	GetAll() ([]entities.User, error)
+	CreateUser(user entities.User) error
 }
 
 type Repository struct {

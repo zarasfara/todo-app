@@ -24,6 +24,7 @@ type (
 		Database string
 		Username string
 		Password string
+		SSLMode  string
 	}
 
 	HTTPConfig struct {
@@ -57,6 +58,9 @@ func Init() *Config {
 // set parametres from config.yml file.
 func unmarshal(cfg *Config) error {
 	if err := viper.UnmarshalKey("http", &cfg.HTTP); err != nil {
+		log.Fatalf("Error read config: %s", err)
+	}
+	if err := viper.UnmarshalKey("db", &cfg.DBConnection); err != nil {
 		log.Fatalf("Error read config: %s", err)
 	}
 

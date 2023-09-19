@@ -7,10 +7,11 @@ import (
 
 type User interface {
 	GetAll() ([]entities.User, error)
+	CreateUser(user entities.User)
 }
 
 type Service struct {
-	User
+	User 
 }
 
 func NewService(repos *repository.Repository) *Service {

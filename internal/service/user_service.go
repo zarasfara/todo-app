@@ -1,6 +1,9 @@
 package service
 
 import (
+	"crypto/sha256"
+	"fmt"
+
 	"github.com/zarasfara/pet-adoption-platoform/internal/entities"
 	"github.com/zarasfara/pet-adoption-platoform/internal/repository"
 )
@@ -17,4 +20,15 @@ func NewUserService(repo repository.User) *UserService {
 
 func (u *UserService) GetAll() ([]entities.User, error) {
 	return u.repo.GetAll()
+}
+
+func (u *UserService) CreateUser(user entities.User) {
+	user.Password = generatePasswordHash(user.Password)
+	u.repo.CreateUser(user)
+}
+
+func generatePasswordHash(password string) string {
+	hash := sha256.New().Sum([]byte(password))
+	hashString := fmt.Sprintf("%x", hash)
+	return hashString
 }

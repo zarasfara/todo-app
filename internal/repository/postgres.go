@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	users = "users"
+	usersTable = "users"
 )
 
 func NewPostgresDB(cfg config.Config) (*sqlx.DB, error) {
@@ -19,7 +19,7 @@ func NewPostgresDB(cfg config.Config) (*sqlx.DB, error) {
 		cfg.DBConnection.Username,
 		cfg.DBConnection.Database,
 		cfg.DBConnection.Password,
-		"disable",
+		cfg.DBConnection.SSLMode,
 	))
 	if err != nil {
 		return nil, err
