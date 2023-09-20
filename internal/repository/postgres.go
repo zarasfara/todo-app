@@ -10,6 +10,7 @@ import (
 
 const (
 	usersTable = "users"
+	todoTable = "todos"
 )
 
 func NewPostgresDB(cfg config.Config) (*sqlx.DB, error) {

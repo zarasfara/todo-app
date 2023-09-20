@@ -49,7 +49,7 @@ func Init() *Config {
 	setFromEnv(&cfg)
 
 	if err := unmarshal(&cfg); err != nil {
-		log.Fatal("Cannot unmarshal config")
+		log.Fatalf("Cannot unmarshal config: %s", err.Error())
 	}
 
 	return &cfg
