@@ -20,11 +20,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	api := router.Group("/api")
 	{
+		// Register middlewares
 		api.Use(jsonHeaderCheckMiddleware())
-		
-		// Добавляем глобальный middleware для установки заголовка Content-Type
 		api.Use(setJSONContentType())
 
+		// Init routes
 		v1 := api.Group("/v1")
 		{
 			v1.GET("/check", h.check)
@@ -33,6 +33,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			{
 				users.GET("/", h.getAllUsers)
 				users.POST("/", h.createUser)
+			}
+
+			todos := v1.Group("/todos")
+			{
+				todos.GET("/", h.getAllTodos)
+				todos.POST("/", h.createTodo)
+				todos.GET("/:id", h.getTodoById)
 			}
 		}
 

@@ -9,8 +9,7 @@ func jsonHeaderCheckMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		acceptHeader := ctx.GetHeader("Accept")
 		if acceptHeader != "application/json" {
-			ctx.JSON(http.StatusUnsupportedMediaType, gin.H{"error": "Unsupported media type"})
-			ctx.Abort()
+			ctx.AbortWithStatusJSON(http.StatusUnsupportedMediaType, gin.H{"error": "Unsupported media type"})
 		}
 		ctx.Next()
 	}

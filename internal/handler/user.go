@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,7 +10,8 @@ import (
 func (h *Handler) getAllUsers(c *gin.Context) {
 	usersList, err := h.services.User.GetAll()
 	if err != nil {
-		log.Fatalf("Something went wrong: %s", err.Error())
+		newErrorResponse(c,http.StatusInternalServerError, err.Error())
+		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
@@ -27,7 +27,7 @@ func (h *Handler) createUser(c *gin.Context) {
 		return
 	}
 	
-	h.services.User.CreateUser(user)
+	h.services.User.Create(user)
 
 	c.JSON(http.StatusCreated, gin.H{
 		"message": "user has been created!",

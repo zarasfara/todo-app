@@ -20,5 +20,5 @@ migrate-down:
 	docker run -v ./migrations:/migrations --network host migrate/migrate -path=/migrations/ -database postgres://${DB_USERNAME}:${DB_PASSWORD}@localhost:5436/${DB_DATABASE}?sslmode=disable down -all
 
 # Создание таблицы
-create_table:
+create-table:
 	migrate create -ext sql -dir ./migrations -seq create_$(table_name)_table

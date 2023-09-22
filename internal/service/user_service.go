@@ -22,7 +22,7 @@ func (u *UserService) GetAll() ([]entities.User, error) {
 	return u.repo.GetAll()
 }
 
-func (u *UserService) CreateUser(user entities.User) {
+func (u *UserService) Create(user entities.User) {
 	user.Password = generatePasswordHash(user.Password)
 	u.repo.CreateUser(user)
 }

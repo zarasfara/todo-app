@@ -7,15 +7,23 @@ import (
 
 type User interface {
 	GetAll() ([]entities.User, error)
-	CreateUser(user entities.User)
+	Create(user entities.User)
+}
+
+type Todo interface {
+	GetAll() ([]entities.Todo, error)
+	CreateTodo(todo entities.Todo) error
+	GetTodoByID(id int) (entities.Todo, error)
 }
 
 type Service struct {
-	User 
+	User
+	Todo
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		User: NewUserService(repos.User),
+		Todo: NewTodoService(repos.Todo),
 	}
 }
