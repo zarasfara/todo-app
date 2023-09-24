@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/jmoiron/sqlx"
 	"github.com/zarasfara/pet-adoption-platoform/internal/entities"
@@ -62,28 +63,38 @@ func (t *TodoPostgres) GetTodoByID(id int) (entities.Todo, error) {
 }
 
 func (r *TodoPostgres) UpdateTodo(id int, input entities.UpdateTodoInput) error {
-	query := fmt.Sprintf(`UPDATE %s
-  SET completed = $1`, todoTable)
-
+	queryParts := []string{fmt.Sprintf("UPDATE %s SET completed = $1", todoTable)}
 	var args []interface{}
 	args = append(args, input.Completed)
 
-	if input.Title != "" {
-		query += ", title = $2"
+	if input.Title != nil {
+		queryParts = append(queryParts, "title = $2")
 		args = append(args, input.Title)
 	}
 
-	if input.Description != "" {
-		query += ", description = $3"
+	if input.Description != nil {
+		queryParts = append(queryParts, "description = $3")
 		args = append(args, input.Description)
 	}
 
-	query += " WHERE id = $4"
+	queryParts = append(queryParts, "WHERE id = $4")
 	args = append(args, id)
 
+	query := strings.Join(queryParts, ", ")
 	_, err := r.db.Exec(query, args...)
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (r TodoPostgres) Delete(id int) error {
+	query := fmt.Sprintf("DELETE from %s WHERE id = $1", todoTable)
+
+	_, err := r.db.Exec(query, id)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
