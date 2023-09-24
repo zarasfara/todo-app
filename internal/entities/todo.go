@@ -11,7 +11,7 @@ type Todo struct {
 }
 
 type UpdateTodoInput struct {
-	Title       string `json:"title"`
-	Description string `json:"description"`
-	Completed   bool   `json:"completed"`
+	Title       *string `json:"title"`
+	Description *string `json:"description"`
+	Completed   *bool   `json:"completed"`
 }

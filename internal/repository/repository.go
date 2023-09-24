@@ -15,6 +15,7 @@ type Todo interface {
 	CreateTodo(todo entities.Todo) error
 	GetTodoByID(id int) (entities.Todo, error)
 	UpdateTodo(id int, input entities.UpdateTodoInput) error
+	Delete(id int) error
 }
 
 type Repository struct {
