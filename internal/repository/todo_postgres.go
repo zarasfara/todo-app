@@ -60,3 +60,30 @@ func (t *TodoPostgres) GetTodoByID(id int) (entities.Todo, error) {
 
 	return todo, nil
 }
+
+func (r *TodoPostgres) UpdateTodo(id int, input entities.UpdateTodoInput) error {
+	query := fmt.Sprintf(`UPDATE %s
+  SET completed = $1`, todoTable)
+
+	var args []interface{}
+	args = append(args, input.Completed)
+
+	if input.Title != "" {
+		query += ", title = $2"
+		args = append(args, input.Title)
+	}
+
+	if input.Description != "" {
+		query += ", description = $3"
+		args = append(args, input.Description)
+	}
+
+	query += " WHERE id = $4"
+	args = append(args, id)
+
+	_, err := r.db.Exec(query, args...)
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -14,6 +14,7 @@ type Todo interface {
 	GetAll() ([]entities.Todo, error)
 	CreateTodo(todo entities.Todo) error
 	GetTodoByID(id int) (entities.Todo, error)
+	UpdateTodo(id int, input entities.UpdateTodoInput) error
 }
 
 type Service struct {
