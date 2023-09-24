@@ -27,8 +27,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		// Init routes
 		v1 := api.Group("/v1")
 		{
-			v1.GET("/check", h.check)
-
 			users := v1.Group("/users")
 			{
 				users.GET("/", h.getAllUsers)
@@ -40,6 +38,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				todos.GET("/", h.getAllTodos)
 				todos.POST("/", h.createTodo)
 				todos.GET("/:id", h.getTodoById)
+				todos.PUT("/:id", h.updateTodo)
 			}
 		}
 

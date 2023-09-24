@@ -26,3 +26,7 @@ func (t *TodoService) CreateTodo(todo entities.Todo) error {
 func (t *TodoService) GetTodoByID(id int) (entities.Todo, error) {
 	return t.repo.GetTodoByID(id)
 }
+
+func (t *TodoService) UpdateTodo(id int, input entities.UpdateTodoInput) error {
+	return t.repo.UpdateTodo(id, input)
+}

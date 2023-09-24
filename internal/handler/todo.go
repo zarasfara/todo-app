@@ -58,3 +58,27 @@ func (h *Handler) getTodoById(c *gin.Context) {
 		"todo": todo,
 	})
 }
+
+func (h *Handler) updateTodo(c *gin.Context) {
+	todoId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid todo id param")
+		return
+	}
+
+	var input entities.UpdateTodoInput
+	if err := c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err := h.services.Todo.UpdateTodo(todoId, input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Todo was updated!",
+	})
+
+}
