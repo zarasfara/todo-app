@@ -5,11 +5,6 @@ import (
 	"github.com/zarasfara/pet-adoption-platoform/internal/repository"
 )
 
-type User interface {
-	GetAll() ([]entities.User, error)
-	Create(user entities.User)
-}
-
 type Todo interface {
 	GetAll() ([]entities.Todo, error)
 	CreateTodo(todo entities.Todo) error
@@ -17,13 +12,11 @@ type Todo interface {
 }
 
 type Service struct {
-	User
 	Todo
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		User: NewUserService(repos.User),
 		Todo: NewTodoService(repos.Todo),
 	}
 }

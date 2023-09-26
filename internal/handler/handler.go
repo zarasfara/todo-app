@@ -29,12 +29,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			v1.GET("/check", h.check)
 
-			users := v1.Group("/users")
-			{
-				users.GET("/", h.getAllUsers)
-				users.POST("/", h.createUser)
-			}
-
 			todos := v1.Group("/todos")
 			{
 				todos.GET("/", h.getAllTodos)
