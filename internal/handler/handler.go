@@ -27,12 +27,6 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		// Init routes
 		v1 := api.Group("/v1")
 		{
-			users := v1.Group("/users")
-			{
-				users.GET("/", h.getAllUsers)
-				users.POST("/", h.createUser)
-			}
-
 			todos := v1.Group("/todos")
 			{
 				todos.GET("/", h.getAllTodos)
