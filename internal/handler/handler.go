@@ -27,13 +27,13 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		// Init routes
 		v1 := api.Group("/v1")
 		{
-			v1.GET("/check", h.check)
-
 			todos := v1.Group("/todos")
 			{
 				todos.GET("/", h.getAllTodos)
 				todos.POST("/", h.createTodo)
 				todos.GET("/:id", h.getTodoById)
+				todos.PUT("/:id", h.updateTodo)
+				todos.DELETE("/:id", h.deleteTodo)
 			}
 		}
 

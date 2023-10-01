@@ -22,3 +22,7 @@ migrate-down:
 # Создание таблицы
 create-table:
 	migrate create -ext sql -dir ./migrations -seq create_$(table_name)_table
+
+# Создание таблицы
+rebuild:
+	docker-compose up -d --no-deps --build $(container)
