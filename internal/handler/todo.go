@@ -86,7 +86,7 @@ func (h *Handler) updateTodo(c *gin.Context) {
 func (h *Handler) deleteTodo(c *gin.Context) {
 	todoId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "invalid todo id param")
+		newErrorResponse(c, http.StatusBadRequest, "invalid todo id param.")
 		return
 	}
 
@@ -98,5 +98,22 @@ func (h *Handler) deleteTodo(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{
 		"message": "Todo was deleted!",
 	})
-	
+}
+
+func (h *Handler) changeStatus(c *gin.Context)  {
+	todoId, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid todo id param.")
+		return
+	}
+
+	if err := h.services.Todo.ChangeStatus(todoId); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"message": "Todo was updated.",
+	})
+
 }

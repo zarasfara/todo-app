@@ -34,3 +34,7 @@ func (t *TodoService) UpdateTodo(id int, input entities.UpdateTodoInput) error {
 func (t *TodoService) Delete(id int) error {
 	return t.repo.Delete(id)
 }
+
+func (t *TodoService) ChangeStatus(id int) error {
+	return t.repo.ChangeStatus(id)
+}

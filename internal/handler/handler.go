@@ -33,6 +33,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 				todos.POST("/", h.createTodo)
 				todos.GET("/:id", h.getTodoById)
 				todos.PUT("/:id", h.updateTodo)
+				todos.PATCH("/change-status/:id", h.changeStatus)
 				todos.DELETE("/:id", h.deleteTodo)
 			}
 		}

@@ -11,6 +11,7 @@ type Todo interface {
 	GetTodoByID(id int) (entities.Todo, error)
 	UpdateTodo(id int, input entities.UpdateTodoInput) error
 	Delete(id int) error
+	ChangeStatus(id int) error
 }
 
 type Repository struct {
