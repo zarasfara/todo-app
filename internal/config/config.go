@@ -32,7 +32,7 @@ type (
 	}
 )
 
-// init configuration from .env and config.yml into Config struct.
+// Init confgire from .env and config.yml into Config struct.
 func Init() *Config {
 	populateDefaults()
 
@@ -55,7 +55,7 @@ func Init() *Config {
 	return &cfg
 }
 
-// set parametres from config.yml file.
+// unmarshal set parametres from config.yml file.
 func unmarshal(cfg *Config) error {
 	if err := viper.UnmarshalKey("http", &cfg.HTTP); err != nil {
 		log.Fatalf("Error read config: %s", err)
@@ -67,7 +67,7 @@ func unmarshal(cfg *Config) error {
 	return nil
 }
 
-// set parametres from .env.
+// setFromEnv set parametres from .env.
 func setFromEnv(cfg *Config) {
 	// database
 	cfg.DBConnection.Database = os.Getenv("DB_DATABASE")
@@ -77,12 +77,12 @@ func setFromEnv(cfg *Config) {
 	cfg.DBConnection.Host = os.Getenv("DB_HOST")
 }
 
-// set default parametres for config.
+// populateDefaults set default parametres for config.
 func populateDefaults() {
 	viper.SetDefault("http.port", defaultHttpPort)
 }
 
-// parse config from file config.yml.
+// parseConfig parse config from file config.yml.
 func parseConfig() error {
 	viper.AddConfigPath("configs")
 	viper.SetConfigName("config")

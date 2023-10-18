@@ -88,11 +88,21 @@ func (r *TodoPostgres) UpdateTodo(id int, input entities.UpdateTodoInput) error 
 	return nil
 }
 
-func (r TodoPostgres) Delete(id int) error {
+func (r *TodoPostgres) Delete(id int) error {
 	query := fmt.Sprintf("DELETE from %s WHERE id = $1", todoTable)
 
 	_, err := r.db.Exec(query, id)
 	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (r *TodoPostgres) ChangeStatus(id int) error {
+	query := fmt.Sprintf("UPDATE %s SET completed = NOT completed WHERE id = $1", todoTable)
+
+	if _, err := r.db.Exec(query, id); err != nil {
 		return err
 	}
 
