@@ -10,6 +10,17 @@ import (
 	"github.com/zarasfara/pet-adoption-platoform/internal/entities"
 )
 
+type jsonResult struct {
+	Data interface{} `json:"data"`
+}
+
+// @Summary		List todos
+// @Description	Get list of all todos
+// @Tags		Todos
+// @Accept		json
+// @Produce		json
+// @Success		200  {object}  jsonResult{data=[]entities.Todo}
+// @Router		/todos [get]
 func (h *Handler) getAllTodos(c *gin.Context) {
 	todoList, err := h.services.Todo.GetAll()
 	if err != nil {
@@ -18,7 +29,7 @@ func (h *Handler) getAllTodos(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"todos": todoList,
+		"data": todoList,
 	})
 }
 
@@ -37,6 +48,15 @@ func (h *Handler) createTodo(c *gin.Context) {
 	})
 }
 
+// @Summary		Show a todo
+// @Description	Get todo by ID
+// @Tags		Todos
+// @Accept		json
+// @Produce		json
+// @Param		id   path      int  true  "Todo ID"
+// @Success		200  {object}  jsonResult{data=entities.Todo}
+// @Failure		404  {object}  handler.errorResponse
+// @Router		/todos/{id} [get]
 func (h *Handler) getTodoById(c *gin.Context) {
 	todoId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -55,7 +75,7 @@ func (h *Handler) getTodoById(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"todo": todo,
+		"data": todo,
 	})
 }
 
@@ -100,7 +120,7 @@ func (h *Handler) deleteTodo(c *gin.Context) {
 	})
 }
 
-func (h *Handler) changeStatus(c *gin.Context)  {
+func (h *Handler) changeStatus(c *gin.Context) {
 	todoId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid todo id param.")
