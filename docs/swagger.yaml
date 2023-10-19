@@ -1,0 +1,84 @@
+basePath: /api/v1
+definitions:
+  entities.Todo:
+    properties:
+      completed:
+        type: boolean
+      created_at:
+        type: string
+      description:
+        type: string
+      id:
+        type: integer
+      title:
+        type: string
+    type: object
+  handler.errorResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  handler.jsonResult:
+    properties:
+      data: {}
+    type: object
+host: localhost:8000
+info:
+  contact: {}
+  description: CRUD LEARNING APPLICATION.
+  title: REST Api CRUD
+  version: "1.0"
+paths:
+  /todos:
+    get:
+      consumes:
+      - application/json
+      description: Get list of all todos
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.jsonResult'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/entities.Todo'
+                  type: array
+              type: object
+      summary: List todos
+      tags:
+      - Todos
+  /todos/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Get todo by ID
+      parameters:
+      - description: Todo ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.jsonResult'
+            - properties:
+                data:
+                  $ref: '#/definitions/entities.Todo'
+              type: object
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/handler.errorResponse'
+      summary: Show a todo
+      tags:
+      - Todos
+swagger: "2.0"

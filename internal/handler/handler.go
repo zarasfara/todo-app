@@ -2,6 +2,9 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/swaggo/files"       // swagger embed files
+	"github.com/swaggo/gin-swagger" // gin-swagger middleware
+	_ "github.com/zarasfara/pet-adoption-platoform/docs"
 	"github.com/zarasfara/pet-adoption-platoform/internal/service"
 )
 
@@ -39,6 +42,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		}
 
 	}
+
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return router
 }
