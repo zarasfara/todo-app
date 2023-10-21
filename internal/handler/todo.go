@@ -20,6 +20,7 @@ type jsonResult struct {
 // @Accept		json
 // @Produce		json
 // @Success		200  {object}  jsonResult{data=[]entities.Todo}
+// @Failure		500  {object}  handler.errorResponse
 // @Router		/todos [get]
 func (h *Handler) getAllTodos(c *gin.Context) {
 	todoList, err := h.services.Todo.GetAll()
@@ -33,6 +34,14 @@ func (h *Handler) getAllTodos(c *gin.Context) {
 	})
 }
 
+// @Summary		Create a todo
+// @Description	Create a todo
+// @Tags		Todos
+// @Accept		json
+// @Produce		json
+// @Success		201  {object}  jsonResult{data=string}
+// @Failure		400  {object}  handler.errorResponse
+// @Router		/todos [post]
 func (h *Handler) createTodo(c *gin.Context) {
 	var todo entities.Todo
 
@@ -44,7 +53,7 @@ func (h *Handler) createTodo(c *gin.Context) {
 	h.services.Todo.CreateTodo(todo)
 
 	c.JSON(http.StatusCreated, gin.H{
-		"mesage": "todo has been created!",
+		"data": "todo has been created!",
 	})
 }
 
@@ -56,6 +65,7 @@ func (h *Handler) createTodo(c *gin.Context) {
 // @Param		id   path      int  true  "Todo ID"
 // @Success		200  {object}  jsonResult{data=entities.Todo}
 // @Failure		404  {object}  handler.errorResponse
+// @Failure		500  {object}  handler.errorResponse
 // @Router		/todos/{id} [get]
 func (h *Handler) getTodoById(c *gin.Context) {
 	todoId, err := strconv.Atoi(c.Param("id"))
@@ -79,6 +89,15 @@ func (h *Handler) getTodoById(c *gin.Context) {
 	})
 }
 
+// @Summary		Update a todo
+// @Description	Update a todo by id
+// @Tags		Todos
+// @Accept		json
+// @Produce		json
+// @Success		200  {object}  jsonResult{data=[]entities.Todo}
+// @Failure		400  {object}  handler.errorResponse
+// @Failure		500  {object}  handler.errorResponse
+// @Router		/todos/{id} [put]
 func (h *Handler) updateTodo(c *gin.Context) {
 	todoId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -98,11 +117,20 @@ func (h *Handler) updateTodo(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Todo was updated!",
+		"data": "Todo was updated!",
 	})
-
 }
 
+// @Summary		Delete a todo
+// @Description	Delete a todo by id
+// @Tags		Todos
+// @Accept		json
+// @Produce		json
+// @Param		id   path      int  true  "Todo ID"
+// @Success		200  {object}  jsonResult{data=string}
+// @Failure		400  {object}  handler.errorResponse
+// @Failure		500  {object}  handler.errorResponse
+// @Router		/todos/{id} [delete]
 func (h *Handler) deleteTodo(c *gin.Context) {
 	todoId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -116,10 +144,20 @@ func (h *Handler) deleteTodo(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Todo was deleted!",
+		"data": "Todo was deleted!",
 	})
 }
 
+// @Summary		Change status
+// @Description	Change status a todo by id
+// @Tags		Todos
+// @Accept		json
+// @Produce		json
+// @Param		id   path      int  true  "Todo ID"
+// @Success		200  {object}  jsonResult{data=string}
+// @Failure		400  {object}  handler.errorResponse
+// @Failure		500  {object}  handler.errorResponse
+// @Router		/todos/{id} [patch]
 func (h *Handler) changeStatus(c *gin.Context) {
 	todoId, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -133,7 +171,7 @@ func (h *Handler) changeStatus(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Todo was updated.",
+		"data": "Todo was updated.",
 	})
 
 }

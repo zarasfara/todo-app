@@ -27,5 +27,5 @@ create-table:
 rebuild:
 	docker-compose up -d --no-deps --build $(container)
 
-swag init:
+swag-init:
 	swag init -g cmd/main.go
